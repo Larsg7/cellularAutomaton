@@ -1,11 +1,9 @@
-import org.omg.CORBA.CODESET_INCOMPATIBLE;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class Simulation {
+class Simulation {
     static ArrayList<Color> COLOR_IDS = new ArrayList<>(Arrays.asList(
             new Color(0, 255, 0),
             new Color(255, 238, 70),
@@ -16,45 +14,33 @@ public class Simulation {
 
     private final int NUMBER_OF_STARTING_PEOPLE = 10;
 
-    WorldMapController worldMapController;
-    ArrayList<Person> people;
+    private WorldMapController worldMapController;
+    private RandomPosition randomPosition;
+    private ArrayList<Person> people;
 
-    public Simulation(WorldMap worldMap) {
+    Simulation(WorldMap worldMap) {
         worldMapController = new WorldMapController(worldMap);
+        randomPosition = new RandomPosition(worldMapController, new Random());
+        people = new ArrayList<>();
         init();
     }
 
     private void init() {
-        for (int i = 0; i < COLOR_IDS.size(); ++i) {
-            final Color color = COLOR_IDS.get(i);
-            Pixel randomLocation = getRandomLandLocation();
-            ArrayList<Person> newPeople = settlePeopleAround(randomLocation, i);
-            newPeople.forEach((Person person) -> {
-                person.setColor(color);
-                worldMapController.setPixel(person.getLocation());
-            });
-            System.out.println(randomLocation);
-            System.out.println(newPeople);
+        for (int id = 0; id < COLOR_IDS.size(); ++id) {
+            final Color color = COLOR_IDS.get(id);
+            Pixel randomLocation = randomPosition.getFreeLocation();
+            ArrayList<Person> newPeople = settlePeopleAround(randomLocation, id);
+            people.addAll(newPeople);
         }
-    }
-
-    private Pixel getRandomLandLocation() {
-        Pixel location = new Pixel(1, 1);
-
-        Random rd = new Random();
-        while (!worldMapController.isLand(location.x, location.y)) {
-            location.x = rd.nextInt(worldMapController.getDimension().width);
-            location.y = rd.nextInt(worldMapController.getDimension().height);
-            System.out.println(location.x);
-        }
-
-        return location;
+        System.out.println(people);
     }
 
     private ArrayList<Person> settlePeopleAround(final Pixel p, int id) {
         ArrayList<Person> list = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_STARTING_PEOPLE; i++) {
-            Pixel newPixel = new Pixel(p.x + i + 1, p.y, p.color);
+            Pixel newPixel = new Pixel(randomPosition.getFreeLocation(p.x, p.y, NUMBER_OF_STARTING_PEOPLE, NUMBER_OF_STARTING_PEOPLE));
+            newPixel.color = COLOR_IDS.get(id);
+            worldMapController.setPixel(newPixel);
             Person newPerson = new Person(newPixel, id);
             list.add(newPerson);
         }

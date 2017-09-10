@@ -9,7 +9,6 @@ public class CellularAutomaton
     private CellularAutomaton()
     {
         init();
-        worldMap.setColor(10, 10, new Color(0, 0, 100));
     }
 
     private void init()

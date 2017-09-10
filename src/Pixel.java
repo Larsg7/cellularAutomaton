@@ -6,13 +6,13 @@ public class Pixel
     int y;
     Color color;
 
-    public Pixel(int x, int y) {
+    Pixel(int x, int y) {
         this.x = x;
         this.y = y;
         color = new Color(0);
     }
 
-    public Pixel(int x, int y, Color color)
+    Pixel(int x, int y, Color color)
     {
         this.x = x;
         this.y = y;
@@ -23,6 +23,16 @@ public class Pixel
         x = p.x;
         y = p.y;
         color = p.color;
+    }
+
+    Pixel() {
+        x = 0;
+        y = 0;
+    }
+
+    void add(Pixel p) {
+        x += p.x;
+        y += p.y;
     }
 
     @Override

@@ -1,12 +1,12 @@
 import java.awt.*;
 
 class WorldMapController {
-    static final String IMAGE_PATH = "src/assets/molumen-world-map-1.png";
+    static final String IMAGE_PATH = "src/assets/simple_map.png";
 
     private WorldMap worldMap;
     private WorldMap pureWorldMap;
 
-    private final Color COLOR_LAND = new Color(154, 203, 255);
+    private final Color COLOR_LAND = new Color(0, 8*16, 0);
     private final Color COLOR_WATER = new Color(0, 0, 0);
 
     WorldMapController(WorldMap worldMap) {
@@ -15,8 +15,11 @@ class WorldMapController {
     }
 
     boolean isLand(int x, int y) {
-        boolean r = worldMap.getColor(x, y).equals(COLOR_WATER);
-        return !worldMap.getColor(x, y).equals(COLOR_WATER);
+        return pureWorldMap.getColor(x, y).equals(COLOR_LAND);
+    }
+
+    boolean isFree(int x, int y) {
+        return worldMap.getColor(x, y).equals(COLOR_LAND);
     }
 
     void setPixel(Pixel p) {
