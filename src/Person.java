@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Person {
     private static final int MAX_AGE = 50;
-    private static final int REPRODUCTION_THRESHOLD = 50;
+    private static final int REPRODUCTION_THRESHOLD = 10;
     private static final float CHANCE_OF_DESEASE_SPREADING = 0.50f;
     private static final float CHANCE_OF_MUTATION_DESEASE = 0.01f;
     private static final float CHANCE_OF_MUTATION_ALOT_STRENNGTH = 0.001f;
@@ -16,7 +16,6 @@ public class Person {
     private int strength;
     private int reproduction;
     private int id;
-    private boolean alive;
     private boolean diseased;
     private Random rd;
 
@@ -52,6 +51,11 @@ public class Person {
         }
     }
 
+    void age() {
+        age++;
+        reproduction++;
+    }
+
     void mutate() {
         final double randomNumber = rd.nextDouble();
         if (randomNumber < CHANCE_OF_MUTATION_DESEASE) {
@@ -65,8 +69,12 @@ public class Person {
         }
     }
 
+    void hasGiveBirth() {
+        reproduction = 0;
+    }
+
     boolean isAlive() {
-        return alive;
+        return age < MAX_AGE;
     }
 
     boolean isDiseased() {
@@ -86,7 +94,7 @@ public class Person {
     }
 
     void die() {
-        alive = false;
+        age = MAX_AGE;
     }
 
     boolean isStronger(int strength) {

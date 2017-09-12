@@ -9,6 +9,12 @@ class WorldSurface extends JPanel {
         setSurfaceSize();
     }
 
+    void setMap(WorldMap map) {
+        this.map = map;
+        setSurfaceSize();
+        this.repaint();
+    }
+
     private void setSurfaceSize() {
         Dimension d = new Dimension();
         d.width = map.getWidth();

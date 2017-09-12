@@ -30,9 +30,10 @@ public class Pixel
         y = 0;
     }
 
-    void add(Pixel p) {
+    Pixel add(Pixel p) {
         x += p.x;
         y += p.y;
+        return this;
     }
 
     @Override

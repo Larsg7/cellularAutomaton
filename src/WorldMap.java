@@ -6,19 +6,31 @@ import java.io.IOException;
 
 class WorldMap {
     private BufferedImage bufferedImage;
+    private Image image;
 
     WorldMap(WorldMap worldMap) {
-        bufferedImage = worldMap.bufferedImage;
+        image = worldMap.image;
+        initBufferedImage();
     }
 
     WorldMap() {
     }
 
+    void reset() {
+        initBufferedImage();
+    }
+
     void loadImage(final String path) throws IOException {
-        Image image = ImageIO.read(new File(path));
-        bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null),
-                BufferedImage.TYPE_INT_ARGB);
-        bufferedImage.getGraphics().drawImage(image, 0, 0, null);
+        image = ImageIO.read(new File(path));
+        initBufferedImage();
+    }
+
+    private void initBufferedImage() {
+        final int zoom = 1;
+        final int height = image.getHeight(null) * zoom;
+        final int width = image.getWidth(null) * zoom;
+        bufferedImage = new BufferedImage(width, height,  BufferedImage.TYPE_INT_ARGB);
+        bufferedImage.getGraphics().drawImage(image, 0, 0, width, height, null);
     }
 
     BufferedImage getImage() {

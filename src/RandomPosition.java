@@ -25,6 +25,14 @@ public class RandomPosition {
     }
 
     Pixel getLocationInSquare(int width, int height) {
-        return new Pixel(random.nextInt(width), random.nextInt(height));
+        return new Pixel(random.nextInt(width + 1), random.nextInt(height + 1));
+    }
+
+    Pixel moveOneStep(Pixel origin) {
+        Pixel newLocation = new Pixel(origin);
+        Pixel randomLocation = getLocationInSquare(1, 1);
+        newLocation.x += randomLocation.x * 2 -1;
+        newLocation.y += randomLocation.y * 2 -1;
+        return newLocation;
     }
 }

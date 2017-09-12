@@ -26,6 +26,10 @@ class WorldMapController {
         worldMap.setColor(p.x, p.y, p.color);
     }
 
+    void resetMap() {
+        worldMap.reset();
+    }
+
     void unsetPixel(Pixel p) {
         worldMap.setColor(p.x, p.y, pureWorldMap.getColor(p.x, p.y));
     }
